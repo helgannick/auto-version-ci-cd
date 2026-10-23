@@ -32,3 +32,14 @@ jobs:
           git add version.txt
           git commit -m "chore: bump version to $(cat version.txt)"
           git push
+
+      - name: Incrementar versão
+        run: |
+          CURRENT=$(cat version.txt)
+          echo "Versão atual: $CURRENT"
+          VERSION=${CURRENT#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "$NEW_VERSION" > version.txt
+          echo "Nova versão: $(cat version.txt)"
